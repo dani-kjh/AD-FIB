@@ -5,7 +5,6 @@
  */
 package servlet;
 
-import BaseDatos.Conexion;
 import BaseDatos.ModificacionyConsulta;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,29 +37,21 @@ public class login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       Connection connection = null;
+       ModificacionyConsulta connection = new ModificacionyConsulta();
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
-            String query;
-            PreparedStatement statement;
-            
             Class.forName("org.apache.derby.jdbc.ClientDriver");
-
-            // create a database connection
-            connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr3;user=pr3;password=pr3");
+            
            
             
             // Select information from users and images and show in the web
             String usuario = request.getParameter("usuario");
             String clave = request.getParameter("clave");
-            query = "select * from pr3.usuarios where id_usuario = ? and password = ?";
-            statement = connection.prepareStatement(query);
-            statement.setString(1, usuario);
-            statement.setString(2, clave);
-            ResultSet rs = statement.executeQuery();
             
-            if(rs.next()){
+            boolean existe = connection.existeusuario(usuario, clave);
+            
+            if(existe){
                 //reenviar a menu
                 response.sendRedirect("menu.jsp");
             } else {
@@ -70,14 +61,7 @@ public class login extends HttpServlet {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e.getMessage());
-            }
+            connection.cerrarconexion();
         }
     }
 
