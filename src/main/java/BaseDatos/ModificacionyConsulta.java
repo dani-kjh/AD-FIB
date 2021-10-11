@@ -122,4 +122,24 @@ public class ModificacionyConsulta {
         }
         return true;
     }
+    
+    public boolean updateimagen(String title, String description, String keywords, String author, String capture_date, int id){
+        try {
+            String query = "update pr3.image set title = ?, description = ?, keywords = ?, author = ?, capture_date = ? where id = ?";
+            PreparedStatement statement;
+            statement = connection.prepareStatement(query);
+            statement.setString(1, title);
+            statement.setString(2, description);
+            statement.setString(3, keywords);
+            statement.setString(4, author);
+            statement.setString(5, capture_date);
+            statement.setInt(6, id);
+            statement.executeUpdate();
+            
+        }catch (SQLException ex) {
+            Logger.getLogger(ModificacionyConsulta.class.getName()).log(Level.SEVERE, null, ex);
+            return true; //hay error
+        }
+        return false; //no hay error
+    }
 }
