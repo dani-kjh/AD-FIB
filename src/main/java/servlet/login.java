@@ -49,7 +49,7 @@ public class login extends HttpServlet {
             String usuario = request.getParameter("usuario");
             String clave = request.getParameter("clave");
             
-            boolean existe = connection.existeusuario(usuario, clave);
+            boolean existe = connection.autenticausuario(usuario, clave);
             
             if(existe){
                 //reenviar a menu

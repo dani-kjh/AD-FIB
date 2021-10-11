@@ -6,7 +6,6 @@
 package servlet;
 
 import BaseDatos.ModificacionyConsulta;
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import javax.servlet.ServletException;
@@ -43,8 +43,10 @@ public class registrarimagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
         ModificacionyConsulta connection = new ModificacionyConsulta();
+        
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             
@@ -55,43 +57,65 @@ public class registrarimagen extends HttpServlet {
             String author = request.getParameter("author");
             String creator = request.getParameter("creator");
             String capture_date = request.getParameter("capture_date");
+            
             Part filePart = request.getPart("image"); // Retrieves <input type="file" name="image">
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
             InputStream fileContent = filePart.getInputStream();
             
             //guardar imagen
-            final String path = "/home/alumne/imagenes"; //revisar path !!!
-            OutputStream out = null;
-            InputStream filecontent = null;
-            final PrintWriter writer = response.getWriter();
-            try{
-                out = new FileOutputStream(new File(path + File.separator
-                + fileName));
-                //filecontent = filePart.getInputStream();
-
-                int read = 0;
-                final byte[] bytes = new byte[1024];
-
-                while ((read = fileContent.read(bytes)) != -1) {
-                    out.write(bytes, 0, read);
-                }
-                writer.println("New file " + fileName + " created at " + path);
-                LOGGER.log(Level.INFO, "File{0}being uploaded to {1}",
-                        new Object[]{fileName, path});
-            }catch (FileNotFoundException fne) {
-                writer.println("You either did not specify a file to upload or are "
-                        + "trying to upload a file to a protected or nonexistent "
-                        + "location.");
-                writer.println("<br/> ERROR: " + fne.getMessage());
-
-                LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
-                        new Object[]{fne.getMessage()});
-            }
+            final String path = "/home/dani/NetBeansProjects/Practica2/src/main/resources/imagenes"; //revisar path !!!
+            
+            saveFile(response, path, fileName, fileContent);
+            connection.registrarImagen(title,description,keywords,author,creator, capture_date,fileName);
+            
             
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            
+            System.out.println("error 2");
+            response.sendRedirect("menu.jsp");
         }
     }
+    
+    
+
+    private void saveFile(HttpServletResponse response, final String path, String fileName, InputStream fileContent) throws IOException{
+        OutputStream out = null;
+        InputStream filecontent = null;
+        final PrintWriter writer = response.getWriter();
+        try{
+            out = new FileOutputStream(new File(path + File.separator
+                    + fileName));
+            //filecontent = filePart.getInputStream();
+            
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+            
+            while ((read = fileContent.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            
+            writer.println("New file " + fileName + " created at " + path);
+       //     LOGGER.log(Level.INFO, "File{0}being uploaded to {1}",
+         //           new Object[]{fileName, path});
+            
+            
+        }catch (FileNotFoundException fne) {
+            writer.println("You either did not specify a file to upload or are "
+                    + "trying to upload a file to a protected or nonexistent "
+                    + "location.");
+            writer.println("<br/> ERROR: " + fne.getMessage());
+            System.out.println("error 1");
+            
+//            LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
+  //                  new Object[]{fne.getMessage()});
+  
+              response.sendRedirect("menu.jsp");
+        }
+    }
+    
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -120,6 +144,19 @@ public class registrarimagen extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+         PrintWriter out = response.getWriter();
+
+         out.println("<html>");
+         out.println("<head></head>");
+         out.println("<body>");
+         out.println("<br>");
+
+         out.println("<a href=\"registrarimagen.jsp\"> Ir a registar imagen </a> <br>");
+         
+         out.println("<a href=\"menu.jsp\"> Ir al menu </a> <br>");
+
+         out.println("</body>");
+         out.println("</html>");
     }
 
     /**

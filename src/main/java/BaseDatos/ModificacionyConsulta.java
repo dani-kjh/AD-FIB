@@ -12,6 +12,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -46,7 +48,7 @@ public class ModificacionyConsulta {
             }
     }
     
-    public boolean existeusuario(String usuario, String clave){
+    public boolean autenticausuario(String usuario, String clave){
         try {
             String query = "select * from pr3.usuarios where id_usuario = ? and password = ?";
             PreparedStatement statement;
@@ -68,7 +70,56 @@ public class ModificacionyConsulta {
         return true;
     }
     
-    public void registrarimagen(){
-        
+    public boolean registrarImagen(String titulo, String description, String Keywords, String author, String creator, String dataCaptura, String filename){
+        String query = "INSERT INTO IMAGE (TITLE, DESCRIPTION, KEYWORDS, AUTHOR, CREATOR, CAPTURE_DATE, STORAGE_DATE, FILENAME) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
+        LocalDateTime now = LocalDateTime.now();
+        if(!existeusuario(creator)){
+            return false;
+        }
+        else{
+            try {
+            
+                statement = connection.prepareStatement(query);
+                statement.setString(1, titulo);
+                statement.setString(2, description);
+                statement.setString(3, Keywords);
+                statement.setString(4, author);
+                statement.setString(5, creator);
+                statement.setString(6, dataCaptura);
+                statement.setString(7, dtf.format(now));
+                statement.setString(8, filename);
+
+                statement.executeUpdate();
+            
+        } catch (SQLException ex) {
+                Logger.getLogger(ModificacionyConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return true;
+        }
+
+    }
+
+    private boolean existeusuario(String creator) {
+         try {
+            String query = "select * from pr3.usuarios where id_usuario = ? ";
+            PreparedStatement statement;
+            statement = connection.prepareStatement(query);
+            statement.setString(1, creator);
+            ResultSet rs = statement.executeQuery();
+
+            if(rs.next()){
+                //reenviar a menu
+                return true;
+            } else {
+                //reenviar a error, error.java/jsp?codigo, usar get.parameter para obtener "codigo"
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ModificacionyConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
 }
