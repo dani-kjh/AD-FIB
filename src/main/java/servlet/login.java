@@ -56,7 +56,7 @@ public class login extends HttpServlet {
                 response.sendRedirect("menu.jsp");
             } else {
                 //reenviar a error, error.java/jsp?codigo, usar get.parameter para obtener "codigo"
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("error.jsp?tipo=login");
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
