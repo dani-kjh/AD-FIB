@@ -47,9 +47,15 @@ public class modificarimagen extends HttpServlet {
             
             Boolean error = connection.updateimagen(title, description, keywords, author, capture_date, id);
             if (error){
-                response.sendRedirect("login.jsp"); //deberia dar error, no login
+                response.sendRedirect("error.jsp?tipo=modificarimagen"); //error
             } else {
-                response.sendRedirect("menu.jsp"); 
+                //response.sendRedirect("menu.jsp"); 
+                out.println("<html> <body>"
+                        + "<h3>Imagen modificada!</h3>"
+                        + "<br>"
+                        + "<a href='menu.jsp'> Volver al menu</a> "
+                        + "<br>"
+                        + "</body></html>");
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
