@@ -142,4 +142,17 @@ public class ModificacionyConsulta {
         }
         return false; //no hay error
     }
+
+    public void eliminarImagen(String userChoice) {
+        String query = "delete from image where id=?";
+        try {
+            PreparedStatement statement;
+            statement = connection.prepareStatement(query);
+            statement.setInt(1,Integer.parseInt(userChoice));
+            statement.executeUpdate();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ModificacionyConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
