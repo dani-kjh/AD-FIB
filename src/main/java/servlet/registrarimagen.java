@@ -15,6 +15,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -58,6 +60,9 @@ public class registrarimagen extends HttpServlet {
             String author = request.getParameter("author");
             String capture_date = request.getParameter("capture_date");
             
+            String correctDate = changeDateFormat(capture_date);
+
+            
             Part filePart = request.getPart("image"); // Retrieves <input type="file" name="image">
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
             InputStream fileContent = filePart.getInputStream();
@@ -70,7 +75,7 @@ public class registrarimagen extends HttpServlet {
             //guardar informacion en la base de datos
             HttpSession session = request.getSession();
             String nombreUsuarioActual = session.getAttribute("user").toString();
-            connection.registrarImagen(title,description,keywords,author,nombreUsuarioActual, capture_date,fileName);
+            connection.registrarImagen(title,description,keywords,author,nombreUsuarioActual, correctDate,fileName);
             
             
         } catch (Exception e) {
@@ -116,6 +121,21 @@ public class registrarimagen extends HttpServlet {
   
               response.sendRedirect("menu.jsp");
         }
+    }
+    
+     private String changeDateFormat(String capture_date) throws ParseException {
+        final String NEW_FORMAT = "dd/MM/yyyy";
+        final String OLD_FORMAT = "yyyy-MM-dd";
+        
+        // August 12, 2010
+        String oldDateString = capture_date;
+        String newDateString;
+        
+        SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+        java.util.Date d = sdf.parse(oldDateString);
+        sdf.applyPattern(NEW_FORMAT);
+        newDateString = sdf.format(d);
+        return newDateString;
     }
     
     

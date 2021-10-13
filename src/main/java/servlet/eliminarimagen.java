@@ -32,8 +32,7 @@ public class eliminarimagen extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response){
         response.setContentType("text/html;charset=UTF-8");
         
         ModificacionyConsulta connection = new ModificacionyConsulta();
@@ -58,7 +57,7 @@ public class eliminarimagen extends HttpServlet {
             }
         }
         catch (Exception e){
-            
+            System.err.println(e.getMessage());
         }
     }
 

@@ -9,6 +9,8 @@ package servlet;
 import BaseDatos.ModificacionyConsulta;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -46,7 +48,11 @@ public class modificarimagen extends HttpServlet {
             String capture_date = request.getParameter("capture_date");
             int id = Integer.parseInt(request.getParameter("id"));
             
-            Boolean error = connection.updateimagen(title, description, keywords, author, capture_date, id);
+            String correctDate = changeDateFormat(capture_date);
+
+            
+            
+            Boolean error = connection.updateimagen(title, description, keywords, author, correctDate, id);
             if (error){
                 response.sendRedirect("error.jsp?tipo=modificarimagen"); //error
             } else {
@@ -62,6 +68,21 @@ public class modificarimagen extends HttpServlet {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+    }
+    
+    private String changeDateFormat(String capture_date) throws ParseException {
+        final String NEW_FORMAT = "dd/MM/yyyy";
+        final String OLD_FORMAT = "yyyy-MM-dd";
+        
+        // August 12, 2010
+        String oldDateString = capture_date;
+        String newDateString;
+        
+        SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+        java.util.Date d = sdf.parse(oldDateString);
+        sdf.applyPattern(NEW_FORMAT);
+        newDateString = sdf.format(d);
+        return newDateString;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
