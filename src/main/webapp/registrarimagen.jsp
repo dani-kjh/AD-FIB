@@ -22,10 +22,8 @@
             <input type="text" name="keywords"><br>
             Autor:
             <input type="text" name="author"><br>
-            Creador:
-            <input type="text" name="creator"><br>
             Fecha de creacion:
-            <input type="text" name="capture_date"><br>
+            <input type="date" name="capture_date"><br>
             Imagen:
             <input type="file" name="image"><br>
             

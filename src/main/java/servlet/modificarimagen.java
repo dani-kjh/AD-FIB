@@ -8,6 +8,7 @@ package servlet;
 
 import BaseDatos.ModificacionyConsulta;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -49,6 +50,7 @@ public class modificarimagen extends HttpServlet {
             if (error){
                 response.sendRedirect("error.jsp?tipo=modificarimagen"); //error
             } else {
+                PrintWriter out = response.getWriter();
                 //response.sendRedirect("menu.jsp"); 
                 out.println("<html> <body>"
                         + "<h3>Imagen modificada!</h3>"

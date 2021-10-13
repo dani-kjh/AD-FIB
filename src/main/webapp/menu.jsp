@@ -16,8 +16,8 @@
         <h1>Menú</h1> 
         <h2>Selecciona la opción que quieras</h2>
         <a href="registrarimagen.jsp"> Ir a registar imagen </a> <br>
-        <a href="login.jsp"> Ir a eliminar imagen </a> <br>
-        <a href="login.jsp"> Ir a modificar imagen </a> <br>
+        <a href="eliminarImagen.jsp"> Ir a eliminar imagen </a> <br>
+        <a href="modificarimagen.jsp"> Ir a modificar imagen </a> <br>
         <a href="login.jsp"> Ir a listar </a> <br>
         <a href="login.jsp"> Ir a buscar imagen </a> <br>
     </body>

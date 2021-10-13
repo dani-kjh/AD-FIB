@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 /**
@@ -55,7 +56,6 @@ public class registrarimagen extends HttpServlet {
             String description = request.getParameter("description");
             String keywords = request.getParameter("keywords");
             String author = request.getParameter("author");
-            String creator = request.getParameter("creator");
             String capture_date = request.getParameter("capture_date");
             
             Part filePart = request.getPart("image"); // Retrieves <input type="file" name="image">
@@ -66,7 +66,11 @@ public class registrarimagen extends HttpServlet {
             final String path = "/home/dani/NetBeansProjects/Practica2/src/main/resources/imagenes"; //revisar path !!!
             
             saveFile(response, path, fileName, fileContent);
-            connection.registrarImagen(title,description,keywords,author,creator, capture_date,fileName);
+            
+            //guardar informacion en la base de datos
+            HttpSession session = request.getSession();
+            String nombreUsuarioActual = session.getAttribute("user").toString();
+            connection.registrarImagen(title,description,keywords,author,nombreUsuarioActual, capture_date,fileName);
             
             
         } catch (Exception e) {
@@ -146,17 +150,15 @@ public class registrarimagen extends HttpServlet {
         processRequest(request, response);
          PrintWriter out = response.getWriter();
 
-         out.println("<html>");
-         out.println("<head></head>");
-         out.println("<body>");
-         out.println("<br>");
-
-         out.println("<a href=\"registrarimagen.jsp\"> Ir a registar imagen </a> <br>");
          
-         out.println("<a href=\"menu.jsp\"> Ir al menu </a> <br>");
-
-         out.println("</body>");
-         out.println("</html>");
+       
+         out.println("<html> <body>"
+                        + "<br>"
+                        + "<a href='registrarimagen.jsp'> Ir a registar imagen </a>"
+                        + "<br>"
+                        + "<a href='menu.jsp'> Volver al menu</a> "
+                        + "<br>"
+                        + "</body></html>");
     }
 
     /**

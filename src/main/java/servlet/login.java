@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -53,6 +54,9 @@ public class login extends HttpServlet {
             
             if(existe){
                 //reenviar a menu
+                
+                HttpSession session = request.getSession();
+                session.setAttribute("user", usuario);
                 response.sendRedirect("menu.jsp");
             } else {
                 //reenviar a error, error.java/jsp?codigo, usar get.parameter para obtener "codigo"
