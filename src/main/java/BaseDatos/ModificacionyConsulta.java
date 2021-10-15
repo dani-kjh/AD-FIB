@@ -155,4 +155,18 @@ public class ModificacionyConsulta {
             Logger.getLogger(ModificacionyConsulta.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public ResultSet list(){
+        String query = "select * from pr3.image";
+        ResultSet rs = null;
+        try{
+            PreparedStatement statement;
+            statement = connection.prepareStatement(query);
+            rs = statement.executeQuery();
+            return rs;
+        } catch (SQLException ex) {
+            Logger.getLogger(ModificacionyConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
 }
