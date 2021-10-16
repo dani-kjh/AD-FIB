@@ -6,8 +6,10 @@
 package servlet;
 
 import BaseDatos.ModificacionyConsulta;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,8 +68,9 @@ public class buscarImagen extends HttpServlet {
 
     private void printResultSet(HttpServletResponse response, HttpServletRequest request, ResultSet rs) throws IOException, SQLException {
         PrintWriter out = response.getWriter();
-        String path = "/home/dani/NetBeansProjects/Practica2/src/main/resources/imagenes/";
-
+        String path = Paths.get(".").toAbsolutePath().toString();
+        
+        System.out.println(path);
         boolean empty = true;
         HttpSession sess = request.getSession();
         String usuario = sess.getAttribute("user").toString();
@@ -84,14 +87,14 @@ public class buscarImagen extends HttpServlet {
                     + "<br>"+ "Autor:"+ autorResultado+ "<br>");
             
             if(usuario.equals(creadorResultado)){
-                out.println("<a href="+path + rs.getString("filename") + "'> Ver imagen</a>" + "<br>"
+                out.println("<a href='visualizar.jsp?nombreIM=" + rs.getString("filename") + "'> Ver imagen</a>" + "<br>"
                         + "<a href='modificarimagen.jsp?id=" + idResultado + "'>Modificar Imagen</a>" + "<br>"
                                 + "<a href='eliminarImagen.jsp?id=" + idResultado + "'>Eliminar Imagen</a>" + "<br>" + "<br>");
                 
             }
             
             else{
-                out.println("<a href='path" + rs.getString("filename") + "'> Ver imagen</a>" + "<br>"
+                out.println("<a href='visualizar.jsp?nombreIM=" + rs.getString("filename") + "'> Ver imagen</a>" + "<br>"
                         + "NO tienes permisos para modificar la imagen" + "<br>"
                         + "NO tienes permisos para eliminar la imagen" + "<br>" + "<br>");
             }
@@ -100,9 +103,10 @@ public class buscarImagen extends HttpServlet {
         
         if(!rs.next() && empty){
             out.println("Error: No se ha encontrado ninguna imagen que coincida con sus criterios");
-            out.println("<br>" + "<a href='menu.jsp'>Volver al menú</a>" + "<br>");
             out.println("<a href='buscarImagen.jsp'>Realizar otra busqueda</a>" + "<br>");
         }
+        out.println("<br>");
+        out.println("<a href ='menu.jsp'> Volver a menu </a>");
     }
 
     private String changeDateFormat(String capture_date) throws ParseException {

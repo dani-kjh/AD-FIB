@@ -35,16 +35,18 @@
                 String description = rs.getString("description");
                 if(usu.equals(creator)){
                     out.println("Imagen: "+ id + "<br>"+ "Titulo: "+ title + "<br>"+ "Autor:"+ author+ "<br>"
-                    + "<a href='path" + rs.getString("filename") + "'> Ver imagen</a>" + "<br>"
+                    + "<a href='visualizar.jsp?nombreIM=" + rs.getString("filename") + "'> Ver imagen</a>" + "<br>"
                     + "<a href='modificarimagen.jsp?id=" + id + "'>Modificar Imagen</a>" + "<br>"
                     + "<a href='eliminarimagen.jsp?id=" + id + "'>Eliminar Imagen</a>" + "<br>" + "<br>");
                 } else {
                     out.println("Imagen: "+ id + "<br>"+ "Titulo: "+ title + "<br>"+ "Autor:"+ author+ "<br>"
-                    + "<a href='path" + rs.getString("filename") + "'> Ver imagen</a>" + "<br>"
+                    + "<a href='visualizar.jsp?nombreIM=" + rs.getString("filename") + "'> Ver imagen</a>" + "<br>"
                     + "NO tienes permisos para modificar la imagen" + "<br>"
                     + "NO tienes permisos para eliminar la imagen" + "<br>" + "<br>");
                 }
             }
+        out.println("<br>");
+        out.println("<a href ='menu.jsp'> Volver a menu </a>");
         %>
     </body>
 </html>
