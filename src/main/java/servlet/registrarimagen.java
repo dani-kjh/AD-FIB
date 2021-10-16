@@ -81,8 +81,7 @@ public class registrarimagen extends HttpServlet {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             
-            System.out.println("error 2");
-            response.sendRedirect("menu.jsp");
+            response.sendRedirect("error.jsp?tipo=registrarimagen");
         }
     }
     
@@ -119,7 +118,7 @@ public class registrarimagen extends HttpServlet {
 //            LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
   //                  new Object[]{fne.getMessage()});
   
-              response.sendRedirect("menu.jsp");
+              response.sendRedirect("error.jsp?tipo=registrarimagen");
         }
     }
     
