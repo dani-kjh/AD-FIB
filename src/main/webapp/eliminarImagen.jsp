@@ -24,7 +24,8 @@
             <br>
             
             <input type="radio" name="seleccion" id ="si" value="si" > 
-            <input type="hidden" name ="id" value ="9">
+            <% String idimage = request.getParameter("id");%>
+            <input type="hidden" name ="id" value="<%= idimage %>">
             <input type="hidden" name ="nombre" value ="prueba.png">
             <label for = "si"> Si, deseo eliminar la imagen </label>
             <br>
