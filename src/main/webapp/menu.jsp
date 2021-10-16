@@ -13,6 +13,7 @@
     </head>
     
     <body>
+        <% if(session.getAttribute("user").equals(null)) response.sendRedirect("login.jsp"); %>
         <h1>Menú</h1> 
         <h2>Selecciona la opción que quieras</h2>
         <a href="registrarimagen.jsp"> Ir a registar imagen </a> <br>
