@@ -12,7 +12,7 @@
         <title>Eliminar Imagen</title>
     </head>
     <body>
-        <% if(session.getAttribute("user")==null) response.sendRedirect("login.jsp")%>
+        <% if(session.getAttribute("user").equals(null)) response.sendRedirect("login.jsp"); %>
         <h1>Eliminar Imagen</h1>
         <form action="eliminarimagen" method="post">
             <p> Esta seguro que desea eliminar la imagen: </p>
