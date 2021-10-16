@@ -18,13 +18,13 @@
             Titulo:
             <input type="text" name="title" placeholder="Titulo ejemplo" required><br>
             Descripcion:
-            <input type="text" name="description" placeholder="Descripcion ejemplo"><br>
+            <input type="text" name="description" placeholder="Descripcion ejemplo" required><br>
             Keywords:
-            <input type="text" name="keywords" placeholder="Keywords ejemplo"><br>
+            <input type="text" name="keywords" placeholder="Keyword1, Keyword2, Keyword3" required><br>
             Autor:
-            <input type="text" name="author" placeholder="Autor ejemplo"><br>
+            <input type="text" name="author" placeholder="Autor ejemplo" required><br>
             Fecha de creacion:
-            <input type="date" name="capture_date" placeholder="Fecha creacion ejemplo"><br>
+            <input type="date" name="capture_date" required><br>
             <% String idimage = request.getParameter("id");%>
             <input type="hidden" name ="id" value="<%= idimage %>">
             
