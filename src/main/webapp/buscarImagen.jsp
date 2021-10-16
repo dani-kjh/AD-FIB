@@ -13,6 +13,8 @@
         <title>Buscar imagen</title>
     </head>
     <body>
+        <% if(session.getAttribute("user") == null) response.sendRedirect("login.jsp"); %>
+
         <h1>Busqueda de imagenes</h1>
         <form action = "buscarImagen" method = "GET">
             

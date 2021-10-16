@@ -14,7 +14,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <% if(session.getAttribute("user").equals(null)) response.sendRedirect("login.jsp"); %>
+        <% if(session.getAttribute("user") == null) response.sendRedirect("login.jsp"); %>
         <h1>Lista de imagenes</h1>
         
         <%

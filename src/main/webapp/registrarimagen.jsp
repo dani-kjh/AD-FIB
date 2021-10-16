@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <% if(session.getAttribute("user").equals(null)) response.sendRedirect("login.jsp"); %>
+        <% if(session.getAttribute("user") == null ) response.sendRedirect("login.jsp"); %>
         <h1>Registrar Imagen</h1>
         <form action="registrarimagen" method="post" enctype="multipart/form-data">
             Titulo:
