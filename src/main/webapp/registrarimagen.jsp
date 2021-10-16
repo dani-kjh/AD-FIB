@@ -15,17 +15,17 @@
         <h1>Registrar Imagen</h1>
         <form action="registrarimagen" method="post" enctype="multipart/form-data">
             Titulo:
-            <input type="text" name="title"><br>
+            <input type="text" name="title" required><br>
             Descripcion:
-            <input type="text" name="description"><br>
+            <input type="text" name="description" required><br>
             Keywords:
-            <input type="text" name="keywords"><br>
+            <input type="text" name="keywords" required><br>
             Autor:
-            <input type="text" name="author"><br>
+            <input type="text" name="author" required><br>
             Fecha de creacion:
-            <input type="date" name="capture_date"><br>
+            <input type="date" name="capture_date" required><br>
             Imagen:
-            <input type="file" name="image"><br>
+            <input type="file" name="image" required><br>
             
             <input type="submit" value="Enviar">
         </form>
