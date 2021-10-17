@@ -32,7 +32,7 @@ public class eliminarimagen extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response){
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType("text/html;charset=UTF-8");
         
         ModificacionyConsulta connection = new ModificacionyConsulta();
@@ -53,20 +53,23 @@ public class eliminarimagen extends HttpServlet {
             else{
                 
                 String nombre = connection.eliminarImagen(idImagen);
-                if(!nombre.equals("null"))
-                    eliminarLocalmente(nombreImagen);
-                PrintWriter out = response.getWriter();
-               out.println("<html> <body>"
-                        + "<h3>Imagen eliminada!</h3>"
-                        + "<br>"
-                        + "<a href='menu.jsp'> Volver al menu</a> "
-                        + "<br>"
-                        + "</body></html>");
-                
+                if(nombre.equals("null"))
+                   response.sendRedirect("error.jsp?tipo=eliminarImagen");
+                else{
+                   eliminarLocalmente(nombreImagen);
+                   PrintWriter out = response.getWriter();
+                   out.println("<html> <body>"
+                            + "<h3>Imagen eliminada!</h3>"
+                            + "<br>"
+                            + "<a href='menu.jsp'> Volver al menu</a> "
+                            + "<br>"
+                            + "</body></html>");
+                }
             }
         }
         catch (Exception e){
             System.err.println(e.getMessage());
+             response.sendRedirect("error.jsp?tipo=eliminarImagen");
         }
     }
 

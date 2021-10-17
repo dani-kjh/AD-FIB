@@ -29,6 +29,12 @@
                 El registro no se ha podido completar, revise los parámetros e inténtelo de nuevo.<br>
                 <a href="menu.jsp"> Aceptar </a> <br>
         <%
+            } else if(request.getParameter("tipo").equals("eliminarImagen")) {
+        %>
+                No se ha podido eliminar la imagen correctamente. Inténtelo de nuevo. <br>
+                <a href="menu.jsp"> Aceptar </a> <br>
+
+        <%
 
             } else {
         %>
