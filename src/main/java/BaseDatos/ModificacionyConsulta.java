@@ -143,10 +143,20 @@ public class ModificacionyConsulta {
         return false; //no hay error
     }
 
-    public void eliminarImagen(String userChoice) {
+    public String eliminarImagen(String userChoice) {
+        String nombreImagen = "null";
+          
         String query = "delete from image where id=?";
         try {
+            String queryNombre = "select filename from image where id = ?";
             PreparedStatement statement;
+            statement = connection.prepareStatement(queryNombre);
+            statement.setInt(1, Integer.parseInt(userChoice));
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            nombreImagen = rs.getString("filename");
+            
+            
             statement = connection.prepareStatement(query);
             statement.setInt(1,Integer.parseInt(userChoice));
             statement.executeUpdate();
@@ -154,6 +164,7 @@ public class ModificacionyConsulta {
         } catch (SQLException ex) {
             Logger.getLogger(ModificacionyConsulta.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return nombreImagen;
     }
     
     public ResultSet list(){

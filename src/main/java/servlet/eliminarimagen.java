@@ -52,8 +52,17 @@ public class eliminarimagen extends HttpServlet {
             //El usuario ha decidido eliminar la imagen
             else{
                 
-                connection.eliminarImagen(idImagen);
-                eliminarLocalmente(nombreImagen);
+                String nombre = connection.eliminarImagen(idImagen);
+                if(!nombre.equals("null"))
+                    eliminarLocalmente(nombreImagen);
+                PrintWriter out = response.getWriter();
+               out.println("<html> <body>"
+                        + "<h3>Imagen eliminada!</h3>"
+                        + "<br>"
+                        + "<a href='menu.jsp'> Volver al menu</a> "
+                        + "<br>"
+                        + "</body></html>");
+                
             }
         }
         catch (Exception e){
@@ -102,7 +111,7 @@ public class eliminarimagen extends HttpServlet {
 
     private void eliminarLocalmente(String fileName) {
         
-        final String path = "/home/dani/NetBeansProjects/Practica2/src/main/resources/imagenes"; //revisar path !!!
+        final String path = "/home/dani/NetBeansProjects/Practica2/src/main/webapp/imagenes"; //revisar path !!!
         
         File fileToDelete = new File(path + File.separator + fileName );
         if(fileToDelete.delete()){

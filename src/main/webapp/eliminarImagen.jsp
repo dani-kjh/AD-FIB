@@ -16,17 +16,11 @@
         <h1>Eliminar Imagen</h1>
         <form action="eliminarimagen" method="post">
             <p> Esta seguro que desea eliminar la imagen: </p>
-            
-           
-            
-            
-            <p> Default </p>
             <br>
             
             <input type="radio" name="seleccion" id ="si" value="si" > 
             <% String idimage = request.getParameter("id");%>
             <input type="hidden" name ="id" value="<%= idimage %>">
-            <input type="hidden" name ="nombre" value ="prueba.png">
             <label for = "si"> Si, deseo eliminar la imagen </label>
             <br>
             
