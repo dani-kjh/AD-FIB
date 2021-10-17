@@ -103,9 +103,8 @@ public class buscarImagen extends HttpServlet {
         
         if(!rs.next() && empty){
             out.println("Error: No se ha encontrado ninguna imagen que coincida con sus criterios");
-            out.println("<a href='buscarImagen.jsp'>Realizar otra busqueda</a>" + "<br>");
+            out.println("<br>"+ "<a href='buscarImagen.jsp'>Realizar otra busqueda</a>" + "<br>");
         }
-        out.println("<br>");
         out.println("<a href ='menu.jsp'> Volver a menu </a>");
     }
 

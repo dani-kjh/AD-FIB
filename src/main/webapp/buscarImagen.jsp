@@ -40,5 +40,7 @@
             
             
         </form>
+        <br>
+        <a href ='menu.jsp'> Volver a menu </a>
     </body>
 </html>

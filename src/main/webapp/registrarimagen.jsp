@@ -30,5 +30,8 @@
             
             <input type="submit" value="Enviar">
         </form>
+        
+        <br>
+        <a href ='menu.jsp'> Volver a menu </a>
     </body>
 </html>
