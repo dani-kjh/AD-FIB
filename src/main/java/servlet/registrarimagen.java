@@ -6,6 +6,7 @@
 package servlet;
 
 import BaseDatos.ModificacionyConsulta;
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,6 +18,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -49,7 +52,7 @@ public class registrarimagen extends HttpServlet {
         
         response.setContentType("text/html;charset=UTF-8");
         ModificacionyConsulta connection = new ModificacionyConsulta();
-        
+        boolean correctUpload = true;
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             
@@ -59,43 +62,49 @@ public class registrarimagen extends HttpServlet {
             String keywords = request.getParameter("keywords");
             String author = request.getParameter("author");
             String capture_date = request.getParameter("capture_date");
-            
             String correctDate = changeDateFormat(capture_date);
-
-            
+            //obtener parametros de imagen
             Part filePart = request.getPart("image"); // Retrieves <input type="file" name="image">
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
             InputStream fileContent = filePart.getInputStream();
+            //Modificamos el nombre de la imagen para hacerla unica
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");  
+            LocalDateTime now = LocalDateTime.now();
+            String timestamp = dtf.format(now);
+            fileName = timestamp + "_"+  fileName;
             
-            //guardar imagen
-            final String path = "/home/dani/NetBeansProjects/Practica2/src/main/resources/imagenes"; //revisar path !!!
+            //guardar imagen en directorio local
+            final String path = "/home/dani/NetBeansProjects/Practica2/src/main/webapp/imagenes"; //revisar path !!!
+            correctUpload = saveFile(response, path, fileName, fileContent);
             
-            saveFile(response, path, fileName, fileContent);
             
-            //guardar informacion en la base de datos
             HttpSession session = request.getSession();
             String nombreUsuarioActual = session.getAttribute("user").toString();
-            connection.registrarImagen(title,description,keywords,author,nombreUsuarioActual, correctDate,fileName);
+            //guardar informacion en la base de datos
+            //Comprobamos que no ha habido errores durante la subida de las imagenes al directorio local
+            if(correctUpload)
+                connection.registrarImagen(title,description,keywords,author,nombreUsuarioActual, correctDate,fileName);
             
             
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            
+            correctUpload = false;
             response.sendRedirect("error.jsp?tipo=registrarimagen");
         }
     }
     
     
-
-    private void saveFile(HttpServletResponse response, final String path, String fileName, InputStream fileContent) throws IOException{
+//Metodo que guarda el fichero fileName en el directorio especificado por path
+    private boolean saveFile(HttpServletResponse response, final String path, String fileName, InputStream fileContent) throws IOException{
+        boolean correctUpload = true;
         OutputStream out = null;
         InputStream filecontent = null;
         final PrintWriter writer = response.getWriter();
         try{
             out = new FileOutputStream(new File(path + File.separator
                     + fileName));
-            //filecontent = filePart.getInputStream();
             
+          
             int read = 0;
             final byte[] bytes = new byte[1024];
             
@@ -104,22 +113,21 @@ public class registrarimagen extends HttpServlet {
             }
             
             writer.println("New file " + fileName + " created at " + path);
-       //     LOGGER.log(Level.INFO, "File{0}being uploaded to {1}",
-         //           new Object[]{fileName, path});
-            
+           LOGGER.log(Level.INFO, "File{0}being uploaded to {1}",
+                   new Object[]{fileName, path});
+     
             
         }catch (FileNotFoundException fne) {
             writer.println("You either did not specify a file to upload or are "
                     + "trying to upload a file to a protected or nonexistent "
                     + "location.");
             writer.println("<br/> ERROR: " + fne.getMessage());
-            System.out.println("error 1");
-            
-//            LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
-  //                  new Object[]{fne.getMessage()});
-  
-              response.sendRedirect("error.jsp?tipo=registrarimagen");
+            LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
+                    new Object[]{fne.getMessage()});
+            response.sendRedirect("error.jsp?tipo=registrarimagen");
+            correctUpload = false;
         }
+        return correctUpload;
     }
     
      private String changeDateFormat(String capture_date) throws ParseException {

@@ -37,7 +37,7 @@
                     out.println("Imagen: "+ id + "<br>"+ "Titulo: "+ title + "<br>"+ "Autor:"+ author+ "<br>"
                     + "<a href='visualizar.jsp?nombreIM=" + rs.getString("filename") + "'> Ver imagen</a>" + "<br>"
                     + "<a href='modificarimagen.jsp?id=" + id + "'>Modificar Imagen</a>" + "<br>"
-                    + "<a href='eliminarimagen.jsp?id=" + id + "'>Eliminar Imagen</a>" + "<br>" + "<br>");
+                    + "<a href='eliminarImagen.jsp?id=" + id + "'>Eliminar Imagen</a>" + "<br>" + "<br>");
                 } else {
                     out.println("Imagen: "+ id + "<br>"+ "Titulo: "+ title + "<br>"+ "Autor:"+ author+ "<br>"
                     + "<a href='visualizar.jsp?nombreIM=" + rs.getString("filename") + "'> Ver imagen</a>" + "<br>"
