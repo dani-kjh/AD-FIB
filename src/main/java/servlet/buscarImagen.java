@@ -40,6 +40,7 @@ public class buscarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response){
         response.setContentType("text/html;charset=UTF-8");
+         ModificacionyConsulta connection = new ModificacionyConsulta();
         try  {
             
             
@@ -50,8 +51,6 @@ public class buscarImagen extends HttpServlet {
             String author = request.getParameter("autor");
             String capture_date = request.getParameter("capture_date");
             capture_date = changeDateFormat(capture_date);
-          
-            ModificacionyConsulta connection = new ModificacionyConsulta();
             ResultSet rs = connection.search(title, description, author, keywords, capture_date);
             
             printResultSet(response, request, rs);
@@ -59,10 +58,11 @@ public class buscarImagen extends HttpServlet {
             
         }
         
-        
-        
         catch (Exception e){
             System.err.println(e.getMessage());
+        }
+        finally{
+            connection.cerrarconexion();
         }
     }
 

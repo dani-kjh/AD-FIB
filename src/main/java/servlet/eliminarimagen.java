@@ -71,6 +71,9 @@ public class eliminarimagen extends HttpServlet {
             System.err.println(e.getMessage());
              response.sendRedirect("error.jsp?tipo=eliminarImagen");
         }
+        finally {
+            connection.cerrarconexion();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -30,7 +30,7 @@
             <label for ="keyword"> Keywords: </label>
             <input type ="text" name = "keyword">
             <br>
-            <label for ="capture_date"> Fecha de creacion: </label>
+            <label for ="capture_date"> Fecha de creacion (Si no desea usar la fecha en su busqueda, deje el valor por defecto): </label>
             <!<!-- Necesitamos dejar un valor por defecto para que funcione -->
             <input type ="date" name = "capture_date" value = "1000-01-01">
             <br>

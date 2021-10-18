@@ -6,7 +6,7 @@
 package servlet;
 
 import BaseDatos.ModificacionyConsulta;
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+//import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,13 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -91,6 +89,9 @@ public class registrarimagen extends HttpServlet {
             correctUpload = false;
             response.sendRedirect("error.jsp?tipo=registrarimagen");
         }
+        finally{
+            connection.cerrarconexion();
+        }
     }
     
     
@@ -113,8 +114,8 @@ public class registrarimagen extends HttpServlet {
             }
             
             writer.println("New file " + fileName + " created at " + path);
-           LOGGER.log(Level.INFO, "File{0}being uploaded to {1}",
-                   new Object[]{fileName, path});
+           //LOGGER.log(Level.INFO, "File{0}being uploaded to {1}",
+                   //new Object[]{fileName, path});
      
             
         }catch (FileNotFoundException fne) {
@@ -122,8 +123,8 @@ public class registrarimagen extends HttpServlet {
                     + "trying to upload a file to a protected or nonexistent "
                     + "location.");
             writer.println("<br/> ERROR: " + fne.getMessage());
-            LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
-                    new Object[]{fne.getMessage()});
+            //LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}",
+                    //new Object[]{fne.getMessage()});
             response.sendRedirect("error.jsp?tipo=registrarimagen");
             correctUpload = false;
         }

@@ -45,6 +45,7 @@
                     + "NO tienes permisos para eliminar la imagen" + "<br>" + "<br>");
                 }
             }
+        connection.cerrarconexion();
         out.println("<br>");
         out.println("<a href ='menu.jsp'> Volver a menu </a>");
         %>

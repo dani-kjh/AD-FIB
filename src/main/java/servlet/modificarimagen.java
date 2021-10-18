@@ -68,6 +68,9 @@ public class modificarimagen extends HttpServlet {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+        finally{
+            connection.cerrarconexion();
+        }
     }
     
     private String changeDateFormat(String capture_date) throws ParseException {
