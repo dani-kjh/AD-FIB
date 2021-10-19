@@ -9,10 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Visualize Image Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
          <% String nombre = request.getParameter("nombreIM");%>
         <img src ="./imagenes/<%= nombre%>" width ="500" height ="500">
         <br>
