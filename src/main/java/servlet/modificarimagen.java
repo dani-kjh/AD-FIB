@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -50,21 +51,28 @@ public class modificarimagen extends HttpServlet {
             
             String correctDate = changeDateFormat(capture_date);
 
-            
-            
-            Boolean error = connection.updateimagen(title, description, keywords, author, correctDate, id);
-            if (error){
-                response.sendRedirect("error.jsp?tipo=modificarimagen"); //error
-            } else {
-                PrintWriter out = response.getWriter();
-                //response.sendRedirect("menu.jsp"); 
-                out.println("<html> <body>"
-                        + "<h3>Imagen modificada!</h3>"
-                        + "<br>"
-                        + "<a href='menu.jsp'> Volver al menu</a> "
-                        + "<br>"
-                        + "</body></html>");
+            HttpSession sesionActual = request.getSession();
+            String usuarioActual = sesionActual.getAttribute("user").toString();
+            String creador = connection.getCreator(id);
+            if(!usuarioActual.equals(creador)){
+                response.sendRedirect("error.jsp?tipo=modificarimagen");
             }
+            else{
+                Boolean error = connection.updateimagen(title, description, keywords, author, correctDate, id);
+                if (error){
+                    response.sendRedirect("error.jsp?tipo=modificarimagen"); //error
+                } else {
+                    PrintWriter out = response.getWriter();
+                    //response.sendRedirect("menu.jsp"); 
+                    out.println("<html> <body>"
+                            + "<h3>Imagen modificada!</h3>"
+                            + "<br>"
+                            + "<a href='menu.jsp'> Volver al menu</a> "
+                            + "<br>"
+                            + "</body></html>");
+                }
+            }
+            
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

@@ -113,7 +113,7 @@ public class registrarimagen extends HttpServlet {
                 out.write(bytes, 0, read);
             }
             
-            writer.println("New file " + fileName + " created at " + path);
+            writer.println("New file " + fileName + " created");
            //LOGGER.log(Level.INFO, "File{0}being uploaded to {1}",
                    //new Object[]{fileName, path});
      

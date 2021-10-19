@@ -12,6 +12,7 @@
         <title>Visualize Image Page</title>
     </head>
     <body>
+         <% if(session.getAttribute("user") == null ) response.sendRedirect("login.jsp"); %>
          <% String nombre = request.getParameter("nombreIM");%>
         <img src ="./imagenes/<%= nombre%>" width ="500" height ="500">
         <br>

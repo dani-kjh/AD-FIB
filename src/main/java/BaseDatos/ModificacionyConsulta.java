@@ -232,4 +232,19 @@ public class ModificacionyConsulta {
          return rs;  
       
     }
+
+    public String getCreator(int id) {
+        String creator = "null";
+        try {
+            String query = "select creator from image where id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            creator = rs.getString("creator");
+        } catch (SQLException ex) {
+            Logger.getLogger(ModificacionyConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return creator;
+    }
 }

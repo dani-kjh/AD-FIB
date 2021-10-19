@@ -51,20 +51,29 @@ public class eliminarimagen extends HttpServlet {
             
             //El usuario ha decidido eliminar la imagen
             else{
-                
-                String nombre = connection.eliminarImagen(idImagen);
-                if(nombre.equals("null"))
-                   response.sendRedirect("error.jsp?tipo=eliminarImagen");
-                else{
-                   eliminarLocalmente(nombreImagen);
-                   PrintWriter out = response.getWriter();
-                   out.println("<html> <body>"
-                            + "<h3>Imagen eliminada!</h3>"
-                            + "<br>"
-                            + "<a href='menu.jsp'> Volver al menu</a> "
-                            + "<br>"
-                            + "</body></html>");
+                HttpSession sesionActual = request.getSession();
+                String usuarioActual = sesionActual.getAttribute("user").toString();
+                String creador = connection.getCreator(Integer.parseInt(idImagen));
+                if(!usuarioActual.equals(creador)){
+                    response.sendRedirect("error.jsp?tipo=eliminarImagen");
+
                 }
+                else{
+                    String nombre = connection.eliminarImagen(idImagen);
+                    if(nombre.equals("null"))
+                       response.sendRedirect("error.jsp?tipo=eliminarImagen");
+                    else{
+                       eliminarLocalmente(nombreImagen);
+                       PrintWriter out = response.getWriter();
+                       out.println("<html> <body>"
+                                + "<h3>Imagen eliminada!</h3>"
+                                + "<br>"
+                                + "<a href='menu.jsp'> Volver al menu</a> "
+                                + "<br>"
+                                + "</body></html>");
+                    }    
+                }
+
             }
         }
         catch (Exception e){
